@@ -2,8 +2,8 @@
 Main module for the Deadline Tracker CLI, handling command-line input and validating user inputs.
 """
 
-import click
 import re
+import click
 from deadline_wizard.deadlines import add_deadline, remove_deadline, remove_all, remove_past
 
 MAX_TASK_LENGTH = 100  # Maximum characters for task
@@ -30,8 +30,8 @@ def validate_time(ctx, param, value):
 def validate_task(ctx, param, value):
     """Validate Task-String."""
     if len(value) > MAX_TASK_LENGTH:
-        raise click.BadParameter(f'Task description length must not exceed' 
-        '{MAX_TASK_LENGTH} characters.')
+        raise click.BadParameter('Task description length must not exceed '
+        f'{MAX_TASK_LENGTH} characters.')
     return value
 
 @click.group()
