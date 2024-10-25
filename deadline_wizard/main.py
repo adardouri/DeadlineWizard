@@ -1,16 +1,16 @@
 import click
 import re
-from .deadlines import add_deadline
+from deadline_wizard.deadlines import add_deadline, remove_deadline, remove_all, remove_past
 
-MAX_TASK_LENGTH = 100  # Maximum characters for time
+MAX_TASK_LENGTH = 100  # Maximum characters for task
 TIME_FORMATS = [
     r'^\d{1,2}:\d{2}$',  # HH:MM
     r'^\d{1,2}:\d{2} [AP]M$',  # HH:MM AM/PM
-    r'^\d{4}$'  # HHMM (z.B. 1230 für 12:30)
+    r'^\d{4}$'  # HHMM (e.g. 1230 for 12:30)
 ]
 
 def validate_time(ctx, param, value):
-    """Validate correct time format"""
+    """Validate correct time format."""
     if value is None:
         click.echo("Time can't be None.")
         raise click.BadParameter('Time must be provided.')
@@ -29,13 +29,47 @@ def validate_task(ctx, param, value):
         raise click.BadParameter(f'Task description length must not exceed {MAX_TASK_LENGTH} characters.')
     return value
 
-@click.command()
+@click.group()
+def cli():
+    """A CLI tool for managing deadlines."""
+    pass
+
+@cli.command(name='set')
 @click.argument('task', type=str, callback=validate_task)
-@click.option('--time', '-t', required=True, type=str, help='Time for deadline (HH:MM, HH:MM AM/PM oder HHMM)', callback=validate_time)
+@click.option('--time', '-t', required=True, type=str, help='Time for deadline (HH:MM, HH:MM AM/PM or HHMM)', callback=validate_time)
 def set_deadline(task, time):
     """Set a new deadline for the given TASK."""
     add_deadline(task, time)
-    click.echo(f'Deadline set for: {task}')
+    click.echo(f'Deadline set for: {task} at {time}')
+
+@cli.command(name='delete')
+@click.argument('deadline_id', type=int)
+def delete(deadline_id):
+    """Delete a deadline by ID."""
+    remove_deadline(deadline_id)
+    click.echo(f'Deleted deadline with ID: {deadline_id}')
+
+@cli.command(name='clear_all')
+def clear_all():
+    """Clear all deadlines."""
+    remove_all()
+    click.echo("Cleared all deadlines.")
+
+@cli.command(name='clear_past')
+def clear_past():
+    """Clear past deadlines."""
+    remove_past()
+    click.echo("Cleared past deadlines.")
+
+@cli.command(name='history')
+def history():
+    """Show past deadlines."""
+    click.echo("Showing history of past deadlines (not implemented yet).")
+
+@cli.command(name='summary')
+def summary():
+    """Show a summary of upcoming deadlines."""
+    click.echo("Showing summary of upcoming deadlines (not implemented yet).")
 
 if __name__ == '__main__':
-    set_deadline()
+    cli()
