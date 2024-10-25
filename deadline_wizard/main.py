@@ -18,19 +18,20 @@ def validate_time(ctx, param, value):
     if value is None:
         click.echo("Time can't be None.")
         raise click.BadParameter('Time must be provided.')
-    
+
     # Check time format
     for fmt in TIME_FORMATS:
         if re.match(fmt, value):
             return value
-            
+
     # Time format not in list
     raise click.BadParameter('Time format has to be either HH:MM, HH:MM AM/PM or HHMM.')
 
 def validate_task(ctx, param, value):
     """Validate Task-String."""
     if len(value) > MAX_TASK_LENGTH:
-        raise click.BadParameter(f'Task description length must not exceed {MAX_TASK_LENGTH} characters.')
+        raise click.BadParameter(f'Task description length must not exceed' 
+        '{MAX_TASK_LENGTH} characters.')
     return value
 
 @click.group()
@@ -40,7 +41,10 @@ def cli():
 
 @cli.command(name='set')
 @click.argument('task', type=str, callback=validate_task)
-@click.option('--time', '-t', required=True, type=str, help='Time for deadline (HH:MM, HH:MM AM/PM or HHMM)', callback=validate_time)
+@click.option(
+    '--time', '-t', required=True, type=str, 
+    help='Time for deadline (HH:MM, HH:MM AM/PM or HHMM)', callback=validate_time
+    )
 def set_deadline(task, time):
     """Set a new deadline for the given TASK."""
     add_deadline(task, time)
