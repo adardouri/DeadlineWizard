@@ -1,3 +1,7 @@
+"""
+Module for managing deadlines including adding, removing, and reading deadlines from a JSON file.
+"""
+
 import json
 import os
 from datetime import datetime
@@ -8,12 +12,12 @@ def read_deadlines(deadline_file=DEADLINE_FILE):
     """Read deadlines from a JSON file."""
     if not os.path.exists(deadline_file):
         return []
-    with open(deadline_file, 'r') as file:
+    with open(deadline_file, 'r', encoding='utf-8') as file:
         return json.load(file)
 
 def write_deadlines(deadlines, deadline_file=DEADLINE_FILE):
     """Write the list of deadlines to the JSON file."""
-    with open(deadline_file, 'w') as file:
+    with open(deadline_file, 'w', encoding='utf-8') as file:
         json.dump(deadlines, file)
 
 def add_deadline(task, time, deadline_file=DEADLINE_FILE):

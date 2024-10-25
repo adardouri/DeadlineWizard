@@ -1,3 +1,7 @@
+"""
+Main module for the Deadline Tracker CLI, handling command-line input and validating user inputs.
+"""
+
 import click
 import re
 from deadline_wizard.deadlines import add_deadline, remove_deadline, remove_all, remove_past
