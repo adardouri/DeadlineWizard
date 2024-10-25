@@ -71,5 +71,10 @@ def summary():
     """Show a summary of upcoming deadlines."""
     click.echo("Showing summary of upcoming deadlines (not implemented yet).")
 
+@cli.command(name="live")
+def live():
+    """Show upcoming deadlines and time delta. Updates every second."""
+    click.echo("Showing upcoming deadlines (not implemented yet).")
+
 if __name__ == '__main__':
     cli()
