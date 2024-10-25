@@ -13,7 +13,7 @@ TIME_FORMATS = [
     r'^\d{4}$'  # HHMM (e.g. 1230 for 12:30)
 ]
 
-def validate_time(ctx, param, value):
+def validate_time(value):
     """Validate correct time format."""
     if value is None:
         click.echo("Time can't be None.")
@@ -27,11 +27,11 @@ def validate_time(ctx, param, value):
     # Time format not in list
     raise click.BadParameter('Time format has to be either HH:MM, HH:MM AM/PM or HHMM.')
 
-def validate_task(ctx, param, value):
+def validate_task(value):
     """Validate Task-String."""
     if len(value) > MAX_TASK_LENGTH:
         raise click.BadParameter('Task description length must not exceed '
-        f'{MAX_TASK_LENGTH} characters.')
+                                 f'{MAX_TASK_LENGTH} characters.')
     return value
 
 @click.group()
