@@ -4,8 +4,8 @@ Tests the functionality of deadlines.py.
 
 import os
 import json
-import pytest
 from datetime import datetime, timedelta
+import pytest
 from deadline_wizard.deadlines import (
     add_deadline,
     remove_deadline,
@@ -77,7 +77,7 @@ def test_write_deadlines(setup_deadline_file):
     """Test writing deadlines to the test file."""
     deadlines = [{'id': 1, 'task': 'Test Task', 'time': '18:00'}]
     write_deadlines(deadlines, TEST_DEADLINE_FILE)
-    with open(TEST_DEADLINE_FILE, 'r') as file:
+    with open(TEST_DEADLINE_FILE, 'r', encoding='utf-8') as file:
         saved_deadlines = json.load(file)
 
     assert len(saved_deadlines) == 1
