@@ -2,7 +2,14 @@ import os
 import json
 import pytest
 from datetime import datetime, timedelta
-from deadline_wizard.deadlines import add_deadline, remove_deadline, remove_all, remove_past, read_deadlines, write_deadlines
+from deadline_wizard.deadlines import (
+    add_deadline,
+    remove_deadline,
+    remove_all,
+    remove_past,
+    read_deadlines, 
+    write_deadlines
+)
 
 TEST_DEADLINE_FILE = 'test_deadlines.json'
 
