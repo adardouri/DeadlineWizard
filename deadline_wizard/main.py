@@ -1,6 +1,6 @@
 import click
 import re
-from deadlines import add_deadline
+from .deadlines import add_deadline
 
 MAX_TASK_LENGTH = 100  # Maximum characters for time
 TIME_FORMATS = [
@@ -11,9 +11,16 @@ TIME_FORMATS = [
 
 def validate_time(ctx, param, value):
     """Validate correct time format"""
+    if value is None:
+        click.echo("Time can't be None.")
+        raise click.BadParameter('Time must be provided.')
+    
+    # Check time format
     for fmt in TIME_FORMATS:
         if re.match(fmt, value):
             return value
+            
+    # Time format not in list
     raise click.BadParameter('Time format has to be either HH:MM, HH:MM AM/PM or HHMM.')
 
 def validate_task(ctx, param, value):
