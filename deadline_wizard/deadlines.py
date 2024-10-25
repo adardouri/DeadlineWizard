@@ -1,5 +1,5 @@
 """
-Module for managing deadlines including adding, removing, and reading deadlines from a JSON file.
+deadlines.py - This module handles all operations related to deadlines.
 """
 
 import json

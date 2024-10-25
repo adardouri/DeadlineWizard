@@ -1,5 +1,5 @@
 """
-Main module for the Deadline Tracker CLI, handling command-line input and validating user inputs.
+main.py - This module serves as the CLI for the deadline management system.
 """
 
 import re
@@ -13,7 +13,7 @@ TIME_FORMATS = [
     r'^\d{4}$'  # HHMM (e.g. 1230 for 12:30)
 ]
 
-def validate_time(value):
+def validate_time(ctx, param, value):
     """Validate correct time format."""
     if value is None:
         click.echo("Time can't be None.")
@@ -24,20 +24,27 @@ def validate_time(value):
         if re.match(fmt, value):
             return value
 
+    # ctx and param are currently not implemented
+    if ctx is not None or param is not None:
+        print('Argument currently not implemented')
+
     # Time format not in list
     raise click.BadParameter('Time format has to be either HH:MM, HH:MM AM/PM or HHMM.')
 
-def validate_task(value):
+def validate_task(ctx, param, value):
     """Validate Task-String."""
     if len(value) > MAX_TASK_LENGTH:
         raise click.BadParameter('Task description length must not exceed '
-                                 f'{MAX_TASK_LENGTH} characters.')
+        f'{MAX_TASK_LENGTH} characters.')
+    # ctx and param are currently not implemented
+    if ctx is not None or param is not None:
+        print('Argument currently not implemented')
     return value
 
 @click.group()
 def cli():
     """A CLI tool for managing deadlines."""
-    pass
+    return
 
 @cli.command(name='set')
 @click.argument('task', type=str, callback=validate_task)
